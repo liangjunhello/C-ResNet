@@ -1,5 +1,5 @@
 # Cross-Resnet
-Cross-Resnet (Veličković *et al.*, ICLR 2018): [https://arxiv.org/abs/1710.10903](https://arxiv.org/abs/1710.10903)
+Cross-Resnet ():
 
 cross_BasicBlock_1            |  Cross_BasicBlock_2
 :-------------------------:|:-------------------------:
@@ -29,13 +29,7 @@ If you make advantage of the GAT model in your research, please cite the followi
 
 ```
 @article{
-  velickovic2018graph,
-  title="{Graph Attention Networks}",
-  author={Veli{\v{c}}kovi{\'{c}}, Petar and Cucurull, Guillem and Casanova, Arantxa and Romero, Adriana and Li{\`{o}}, Pietro and Bengio, Yoshua},
-  journal={International Conference on Learning Representations},
-  year={2018},
-  url={https://openreview.net/forum?id=rJXMpikCZ},
-  note={accepted as poster},
+  
 }
 ```
 
