@@ -60,7 +60,7 @@ parser.add_argument('--pretrain-model',default=None,type=str,
                     help='pretrain_model file name(the file save under ./model_save)')
 
 
-data_path="/workshop/user_data/code/resnet/data/"
+data_path="./data/"
 args = parser.parse_args()
 
     
@@ -243,38 +243,23 @@ def main():
         random.seed(args.seed)
         torch.manual_seed(args.seed)
         cudnn.deterministic = True
-        warnings.warn('You have chosen to seed training. '
-                      'This will turn on the CUDNN deterministic setting, '
-                      'which can slow down your training considerably! '
-                      'You may see unexpected behavior when restarting '
-                      'from checkpoints.')
+        warnings.warn('You have chosen to seed training. ')
         
     train_set,test_set=dataset_choose(args.datasetid)
     train_data=torch.utils.data.DataLoader(train_set, batch_size=args.batch_size, shuffle=True,num_workers=args.workers)
     test_data=torch.utils.data.DataLoader(test_set, batch_size=args.batch_size, shuffle=False,num_workers=args.workers)
     net=net_construct(args.blockid,[int(s) for s in args.layers.split(',')],dataset_numclass[args.datasetid])
-    '''
-     if args.pretrain_model is not None:
-        #pretrained_net = torch.load('./model_save/'+args.pretrain_model)
-        #net.load_state_dict(pretrained_net)
-        #pretrained_net = Net_OLD()
-        pretrained_net_dict = torch.load('./model_save/'+args.pretrain_model)
-        new_state_dict = dict()
-        for k, v in pretrained_net_dict.items():
-              name = k[7:] # remove `module.`
-              new_state_dict[name] = v
-        # load params
-        net.load_state_dict(new_state_dict)'''
+   
     
     net=nn.DataParallel(net)  
     if args.pretrain_model is not None:
         pretrained_net = torch.load('./model_save/'+args.pretrain_model)
         net.load_state_dict(pretrained_net)
-    criterion = nn.CrossEntropyLoss()  #损失函数为交叉熵，多用于多分类问题
+    criterion = nn.CrossEntropyLoss()  
     LR=args.lr
     epoch=args.epochs
     lr_epoch=args.adjust_lr_epoch
-    optimizer = optim.SGD(net.parameters(), lr=LR, momentum=args.momentum, weight_decay=args.weight_decay) #优化方式为mini-batch momentum-SGD，并采用L2正则化（权重衰减）
+    optimizer = optim.SGD(net.parameters(), lr=LR, momentum=args.momentum, weight_decay=args.weight_decay) 
     print("Start training for block class:%s dataset:%s layers:%s "%(block_name[args.blockid],dataset_name[args.datasetid],args.layers))
     train(net, train_data, test_data, epoch, optimizer, criterion,LR,lr_epoch)
 
