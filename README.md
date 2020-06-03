@@ -9,7 +9,6 @@ cross_BasicBlock_1            |  Cross_BasicBlock_2
 Here we provide the code of four cross resnet block in pytorch, along with the four datasets for training in paper . The repository is organised as follows:
 - `data/` contains two datasets data (Caltech101 and Caltech256), and others' two datasets cifar10 and cifar100 can download from internet easily;
 - `resnetimprove.py` contains the code of the  original resnet block (BasicBlock and Bottleneck) and four cross resnet block (Cross_BasicBlock_1, Cross_BasicBlock_2, Cross_Bottleneck_1, Cross_Bottleneck_2);
-- `train.py` contains Code related to training;
 - `main.py` running model training.
 
 
