@@ -30,7 +30,7 @@ The script has been tested running under Python 3.7.4, with the following packag
 - `torch==1.5.0`
 - `torchvision==0.6.0`
 
-In addition, CUDA 10.2 and cuDNN 7.6.5 have been used. We experimented on four Tesla V100.
+In addition, CUDA 10.2 and cuDNN 7.6.5 have been used. We experimented on Tesla V100.
 
 ## Reference
 If you make advantage of the C-resnet model in your research, please cite the following in your manuscript:
