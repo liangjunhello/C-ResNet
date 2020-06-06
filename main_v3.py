@@ -11,7 +11,7 @@ import torch.nn.functional as F
 from torch import nn
 from torch.autograd import Variable
 from datetime import datetime
-import resnetimprove_v3 as resnet
+import resnetimprove as resnet
 import os
 import numpy as np 
 import time
@@ -23,13 +23,14 @@ try:
 except ImportError:
     from torch.utils.model_zoo import load_url as load_state_dict_from_url
 parser = argparse.ArgumentParser(description='resnet Training')
-parser.add_argument('--datasetid',  default=0, type=int,
+parser.add_argument('-d', '--datasetid',  default=0, type=int,
                     help='the dataset to train (0 for cifar10, 1 cifar100, 2 caltech101, 3 caltech256')
 parser.add_argument('-b', '--blockid', default=2,type=int,               
-                    help='0 BasicBlock, 1 Bottleneck, 2 Cross_BasicBlock_1, '+
-                    '3 Cross_BasicBlock_2, 4 Cross_Bottleneck_1, 5 Cross_Bottleneck_2')
+                    help='0 BasicBlock, 1 Bottleneck, 2 C_BasicBlock_A1, '+
+                    '3 C_BasicBlock_A, 4 C_BasicBlock_A2, 5 C_Bottleneck_C1, 6 C_Bottleneck_C'+
+                    '7 c_Bottleneck_B, 8 c_Bottleneck_B1, 9 c_Bottleneck_B2, 10 c_Bottleneck_B3')
 
-parser.add_argument('--layers',default='2,2,2,2',type=str,
+parser.add_argument('-l', '--layers',default='2,2,2,2',type=str,
                     help='num of layer,like resnet18:2,2,2,2 resnet34:3,4,6,3')
 parser.add_argument('-j', '--workers', default=0, type=int, metavar='N',
                     help='number of data loading workers (default: 8)')
@@ -40,13 +41,13 @@ parser.add_argument('--start-epoch', default=0, type=int, metavar='N',
 parser.add_argument('-bs', '--batch-size', default=32, type=int,
                     metavar='N',
                     help='mini-batch size (default: 32)')
-parser.add_argument('--lr', '--learning-rate', default=0.01, type=float,
+parser.add_argument('-lr', '--learning-rate', default=0.01, type=float,
                     metavar='LR', help='initial learning rate', dest='lr')
 parser.add_argument('--adjust-lr-epoch', default=150, type=int,
                     help='learning rate adjust by epoch')
 parser.add_argument('--momentum', default=0.9, type=float, metavar='M',
                     help='momentum of SGD solver')
-parser.add_argument('--wd', '--weight-decay', default=5e-4, type=float,
+parser.add_argument('-wd', '--weight-decay', default=5e-4, type=float,
                     metavar='W', help='weight decay (default: 1e-4)',
                     dest='weight_decay')
 parser.add_argument('--save-epoch', default=20, type=int,
@@ -93,10 +94,15 @@ def net_construct(blockid,layers,num_class):
 
     if(blockid==0):return resnet.ResNet(resnet.BasicBlock, layers,num_classes=num_class)
     elif(blockid==1):return resnet.ResNet(resnet.Bottleneck, layers,num_classes=num_class)
-    elif(blockid==2):return resnet.ResNet(resnet.Cross_BasicBlock_1, layers,num_classes=num_class)
-    elif(blockid==3):return resnet.ResNet(resnet.Cross_BasicBlock_2, layers,num_classes=num_class)
-    elif(blockid==4):return resnet.ResNet(resnet.Cross_Bottleneck_1, layers,num_classes=num_class)
-    elif(blockid==5):return resnet.ResNet(resnet.Cross_Bottleneck_2, layers,num_classes=num_class)
+    elif(blockid==2):return resnet.ResNet(resnet.c_BasicBlock_A1, layers,num_classes=num_class)
+    elif(blockid==3):return resnet.ResNet(resnet.c_BasicBlock_A, layers,num_classes=num_class)
+    elif(blockid==4):return resnet.ResNet(resnet.c_BasicBlock_A2, layers,num_classes=num_class)
+    elif(blockid==5):return resnet.ResNet(resnet.c_Bottleneck_C1, layers,num_classes=num_class)
+    elif(blockid==6):return resnet.ResNet(resnet.c_Bottleneck_C, layers,num_classes=num_class)
+    elif(blockid==7):return resnet.ResNet(resnet.c_Bottleneck_B, layers,num_classes=num_class)
+    elif(blockid==8):return resnet.ResNet(resnet.c_Bottleneck_B1, layers,num_classes=num_class)
+    elif(blockid==9):return resnet.ResNet(resnet.c_Bottleneck_B2, layers,num_classes=num_class)
+    elif(blockid==10):return resnet.ResNet(resnet.c_Bottleneck_B3, layers,num_classes=num_class)
     else:
         args.blockid=0
         return resnet.ResNet(resnet.BasicBlock, layers,num_classes=num_class)
@@ -128,8 +134,8 @@ def dataset_choose(dataset_id):
         test_set = CIFAR10(data_path, train=False, transform=transform_test,download=True)
     return train_set,test_set
     
-
-    
+#Data preparation for cifar10. Borrowed from
+#https://github.com/kuangliu/pytorch-cifar/blob/master/main.py    
 transform_train = transforms.Compose([
     transforms.Resize(32),
     transforms.RandomCrop(32, padding=4),  
@@ -147,7 +153,8 @@ transform_test = transforms.Compose([
 dataset_numclass=[10,100,101,256]
 
 dataset_name=['cifar10','cifar100','caltech101','caltech256']
-block_name=['BasicBlock','Bottleneck','Cross_BasicBlock_1','Cross_BasicBlock_2','Cross_Bottleneck_1','Cross_Bottleneck_2'] 
+block_name=['BasicBlock','Bottleneck','C_BasicBlock_A1','C_BasicBlock_A', 'C_BasicBlock_A2', 'C_Bottleneck_C1', 'C_Bottleneck_C',
+            'c_Bottleneck_B', 'c_Bottleneck_B1','c_Bottleneck_B2','c_Bottleneck_B3'] 
 
 
     
