@@ -32,5 +32,4 @@ If you make advantage of the C-resnet model in your research, please cite the fo
 }
 ```
 
-## License
-SCNU (South China Normal University)
+
