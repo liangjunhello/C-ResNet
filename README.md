@@ -14,10 +14,12 @@ Caltech256 source:http://www.vision.caltech.edu/Image_Datasets/Caltech256/.
 
 ## Example
 Examples for running main.py on terminal:
-  - If you want to train C-ResNet18-A on dataset Cifar10, you can run it by the command: `python main.py -b 3 -l 1211`.
-  - If you want to train C-ResNet27-A2 on dataset Cifar100, you can run it by the command: `python main.py -d 1 -b 4 -l 2222`.
-  - If you want to train C-ResNet27-B on dataset Caltech101, you can run it by the command: `python main.py -d 2 -b 7 -l 1111`.
-  - If you want to train C-ResNet27-C on dataset Caltech256, you can run it by the command: `python main.py -d 3 -b 6 -l 2222`.
+
+  - If you want to train C-ResNet18-A on Cifar10, run it by the command: `python main.py -b 3 -l 1211`.
+  - If you want to train C-ResNet27-A2 on Cifar100, run it by the command: `python main.py -d 1 -b 4 -l 2222`.
+  - If you want to train C-ResNet27-B on Caltech101, run it by the command: `python main.py -d 2 -b 7 -l 1111`.
+  - If you want to train C-ResNet27-C on Caltech256, run it by the command: `python main.py -d 3 -b 6 -l 2222`.
+  
 If you want to konw more details about running, you can read the source code:  `main.py`. 
 
 ## Dependencies
