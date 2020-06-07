@@ -33,7 +33,7 @@ parser.add_argument('-b', '--blockid', default=2,type=int,
 parser.add_argument('-l', '--layers',default='2,2,2,2',type=str,
                     help='num of layer,like resnet18:2,2,2,2 resnet34:3,4,6,3')
 parser.add_argument('-j', '--workers', default=0, type=int, metavar='N',
-                    help='number of data loading workers (default: 8)')
+                    help='number of data loading workers (default: 0)')
 parser.add_argument('--epochs', default=500, type=int, metavar='N',
                     help='number of total epochs to run')
 parser.add_argument('--start-epoch', default=0, type=int, metavar='N',
@@ -58,7 +58,7 @@ parser.add_argument('--gpu', default=None, type=str,
                     help='GPU id to use.such as 0,1,2 means make 0,1,2 three gpus available.')
 parser.add_argument('--save-path',default='./model_save',type=str)
 parser.add_argument('--pretrain-model',default=None,type=str,
-                    help='pretrain_model file name(the file save under ./model_save)')
+                    help='pretrain_model file name(load the model save under ./model_save)')
 
 
 data_path="./data/"
