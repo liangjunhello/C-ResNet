@@ -111,10 +111,10 @@ def dataset_choose(dataset_id):
     test_set=None
     if(dataset_id==0):
         train_set = CIFAR10(data_path, train=True, transform=transform_train,download=True)
-        test_set = CIFAR10(data_path, train=False, transform=transform_test,download=True)        
+        test_set = CIFAR10(data_path, train=False, transform=transform_test_cifar,download=True)        
     elif(dataset_id==1):
         train_set = CIFAR100(data_path, train=True, transform=transform_train,download=True)
-        test_set = CIFAR100(data_path, train=False, transform=transform_test,download=True)
+        test_set = CIFAR100(data_path, train=False, transform=transform_test_cifar,download=True)
     elif(dataset_id==2):
         base_path=data_path+"Caltech101/"
         train_path=base_path+"dataset-train.txt"
@@ -130,7 +130,7 @@ def dataset_choose(dataset_id):
     else:
         args.datasetid=0
         train_set = CIFAR10(data_path, train=True, transform=transform_train,download=True)
-        test_set = CIFAR10(data_path, train=False, transform=transform_test,download=True)
+        test_set = CIFAR10(data_path, train=False, transform=transform_test_cifar,download=True)
     return train_set,test_set
     
 #Data preparation for cifar10. Borrowed from
@@ -146,6 +146,11 @@ transform_train = transforms.Compose([
 transform_test = transforms.Compose([
     transforms.Resize(32),
     transforms.RandomCrop(32, padding=4),  
+    transforms.ToTensor(),
+    transforms.Normalize((0.4914, 0.4822, 0.4465), (0.2023, 0.1994, 0.2010)),
+])
+transform_test_cifar = transforms.Compose([
+    transforms.Resize(32), 
     transforms.ToTensor(),
     transforms.Normalize((0.4914, 0.4822, 0.4465), (0.2023, 0.1994, 0.2010)),
 ])
