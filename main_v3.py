@@ -173,7 +173,7 @@ def train(net, train_data, valid_data, num_epochs, optimizer, criterion,LR,lr_ep
         net = net.cuda()
     prev_time = datetime.now()
     for epoch in range(num_epochs):
-        print(epoch,"time train ")
+        
         adjust_learning_rate(optimizer, epoch, LR,lr_epoch)
         train_loss = 0
         train_acc = 0
@@ -201,7 +201,7 @@ def train(net, train_data, valid_data, num_epochs, optimizer, criterion,LR,lr_ep
         m, s = divmod(remainder, 60)
         time_str = "Time %02d:%02d:%02d" % (h, m, s)
         
-        if epoch%args.save_epoch==0: 
+        if (epoch+1)%args.save_epoch==0: 
             torch.save(net.state_dict(),
                        "./model_save/{}_{}_{}.pt".format(block_name[args.blockid],args.layers,dataset_name[args.datasetid]))  
         
