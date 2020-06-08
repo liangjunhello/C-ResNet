@@ -17,6 +17,7 @@ import numpy as np
 import time
 import torch.backends.cudnn as cudnn
 import warnings
+from PIL import Image
 from torch.utils.data import Dataset
 try:
     from torch.hub import load_state_dict_from_url
