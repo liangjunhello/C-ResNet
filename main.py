@@ -51,8 +51,8 @@ parser.add_argument('-wd', '--weight-decay', default=5e-4, type=float,
                     dest='weight_decay')
 parser.add_argument('--save-epoch', default=20, type=int,
                     help='epoch to save model')
-parser.add_argument('--seed', default=None, type=int,
-                    help='seed for initializing training. ')
+parser.add_argument('--gpu', default=None, type=str,
+                    help='GPU id to use.such as 0,1,2 means make 0,1,2 three gpus available.')
 parser.add_argument('--save-path',default='./model_save',type=str)
 parser.add_argument('--pretrain-model',default=None,type=str,
                     help='pretrain_model file name(load the model save under ./model_save)')
