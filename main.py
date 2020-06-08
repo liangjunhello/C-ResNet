@@ -53,8 +53,6 @@ parser.add_argument('--save-epoch', default=20, type=int,
                     help='epoch to save model')
 parser.add_argument('--seed', default=None, type=int,
                     help='seed for initializing training. ')
-parser.add_argument('--gpu', default=None, type=str,
-                    help='GPU id to use.such as 0,1,2 means make 0,1,2 three gpus available.')
 parser.add_argument('--save-path',default='./model_save',type=str)
 parser.add_argument('--pretrain-model',default=None,type=str,
                     help='pretrain_model file name(load the model save under ./model_save)')
@@ -250,11 +248,6 @@ def train(net, train_data, valid_data, num_epochs, optimizer, criterion,LR,lr_ep
 def main():    
     if args.gpu is not None:        
         os.environ["CUDA_VISIBLE_DEVICES"] = args.gpu
-    if args.seed is not None:
-        random.seed(args.seed)
-        torch.manual_seed(args.seed)
-        cudnn.deterministic = True
-        warnings.warn('You have chosen to seed training. ')
         
     train_set,test_set=dataset_choose(args.datasetid)
     train_data=torch.utils.data.DataLoader(train_set, batch_size=args.batch_size, shuffle=True,num_workers=args.workers)
