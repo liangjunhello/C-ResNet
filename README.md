@@ -13,6 +13,7 @@ Caltech256 source:http://www.vision.caltech.edu/Image_Datasets/Caltech256/.
 - `main.py` running model training.
 
 ## Example
+we use cifar10 for the default data set, and -d for changing the data set (0 Cifar10, 1 Cifar100, 2 Caltech101,3 Caltech256). c_BasicBlock_A1 is the default Cross Block, change the Cross Block with the -b command (0 BasicBlock,1 Bottleneck,...more see the help of args in main.py). change the stack structure of Cross blocks with -l command, e.g. -l 2,2,2,2
 Examples for running main.py on terminal:
   - If you want to train C-ResNet15-A1 on Cifar10, run it by the command: `python main.py -l 1,1,1,1`.
   - If you want to train C-ResNet18-A on Cifar10, run it by the command: `python main.py -b 3 -l 1,2,1,1`.
