@@ -14,7 +14,7 @@ Caltech256 source:http://www.vision.caltech.edu/Image_Datasets/Caltech256/.
 
 ## Example
 Examples for running main.py on terminal:
-
+  - If you want to train C-ResNet15-A1 on Cifar10, run it by the command: `python main.py -l 1,1,1,1`.
   - If you want to train C-ResNet18-A on Cifar10, run it by the command: `python main.py -b 3 -l 1,2,1,1`.
   - If you want to train C-ResNet27-A2 on Cifar100, run it by the command: `python main.py -d 1 -b 4 -l 2,2,2,2`.
   - If you want to train C-ResNet27-B on Caltech101, run it by the command: `python main.py -d 2 -b 7 -l 1,1,1,1`.
