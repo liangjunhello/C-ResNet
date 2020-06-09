@@ -1,9 +1,9 @@
 # Cross-Resnet
 Cross-Resnet ():
 
-C-ResNet18-A            |  C-ResNet27-A2            |  C-ResNet27-B            |  C-ResNet27-C            |
-:-------------------------:|:-------------------------:|:-------------------------:|:-------------------------:
-![](image/C-ResNet18-A.png)  |  ![](image/C-ResNet27-A2.png) |  ![](image/C-ResNet27-B.png) |  ![](image/C-ResNet27-C.png)
+C-ResNet18-A            |C-ResNet27-A|C-ResNet27-A1  |C-ResNet27-A2            |  C-ResNet27-B            |  C-ResNet27-C            |C-ResNet27-C1
+:-------------------------:|:-------------------------:|:-------------------------:|:-------------------------:|:-------------------------:|:-------------------------:|:-------------------------:
+![](image/C-ResNet18-A.png)  |![](image/4-4-2222.jpg) |![](image/C-ResNet27-A1.jpg)|![](image/C-ResNet27-A2.png) |  ![](image/C-ResNet27-B.png) |  ![](image/C-ResNet27-C.png)|![](image/C-ResNet27-C1.png)
 
 ## Overview
 Here we provide the code of nine cross resnet block in pytorch, along with the four datasets for training in paper . The repository is organised as follows:
