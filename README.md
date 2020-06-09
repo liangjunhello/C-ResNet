@@ -14,7 +14,10 @@ Caltech256 source:http://www.vision.caltech.edu/Image_Datasets/Caltech256/.
 
 ## Example
 We use cifar10 for the default data set, and -d for changing the data set (0 Cifar10, 1 Cifar100, 2 Caltech101,3 Caltech256). c_BasicBlock_A1 is the default Cross Block, change the Cross Block with the -b command 
-(0 BasicBlock,1 Bottleneck, 2 C_BasicBlock_A1 ,3 C_BasicBlock_A, 4 C_BasicBlock_A2 , 5 C_Bottleneck_C1 , 6 C_Bottleneck_C , 7 c_Bottleneck_B , 8 c_Bottleneck_B1 , 9 c_Bottleneck_B2 , 10 c_Bottleneck_B3 ). 
+
+(0 BasicBlock,1 Bottleneck, 2 C_BasicBlock_A1 ,3 C_BasicBlock_A, 4 C_BasicBlock_A2 , 5 C_Bottleneck_C1 , 
+6 C_Bottleneck_C , 7 c_Bottleneck_B , 8 c_Bottleneck_B1 , 9 c_Bottleneck_B2 , 10 c_Bottleneck_B3 )
+
 change the stack structure of Cross blocks with -l command, e.g. -l 2,2,2,2 .
 
 Examples for running main.py on terminal:
