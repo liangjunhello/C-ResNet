@@ -9,8 +9,8 @@ Reference:
 
 import torch.nn as nn
 import torch.nn.functional as F
+#The defination BasciBlock, Bottleneck and ResNet are from "https://github.com/kuangliu/pytorch-cifar/blob/master/models/resnet.py" 
 
-#https://github.com/kuangliu/pytorch-cifar/blob/master/models/resnet.py
 #original block
 class BasicBlock(nn.Module): 
     
@@ -37,7 +37,7 @@ class BasicBlock(nn.Module):
         out = F.relu(out)
         return out
     
-#https://github.com/kuangliu/pytorch-cifar/blob/master/models/resnet.py
+
 class Bottleneck(nn.Module): 
     expansion = 4
 
@@ -378,7 +378,7 @@ class c_Bottleneck_B3(nn.Module):
 #####################################################################################
 #https://github.com/kuangliu/pytorch-cifar/blob/master/models/resnet.py
 class ResNet(nn.Module):
-    def __init__(self, block, num_blocks, num_classes=10):
+    def __init__(self, block, num_blocks, num_classes):
         super(ResNet, self).__init__()
         self.in_planes = 64
         self.conv0= nn.Sequential(
