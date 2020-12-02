@@ -34,7 +34,7 @@ The script has been tested running under Python 3.7.4, with the following packag
 
 In addition, CUDA 10.2 and cuDNN 7.6.5 have been used. We experimented on Tesla V100.
 ## Pre-trained Models
-We provide pre-training models for some important networks. You can get them on:https://drive.google.com/drive/folders/1ZNm7hdfzjcNoVv-3RGyE8Gf5JavaEL_p?usp=sharing
+We provide pre-trained models for some important networks. You can get them on:https://drive.google.com/drive/folders/1ZNm7hdfzjcNoVv-3RGyE8Gf5JavaEL_p?usp=sharing
 
 ## Reference
 If you make advantage of the C-resnet model in your research, please cite the following in your manuscript:
