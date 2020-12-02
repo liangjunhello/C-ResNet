@@ -7,6 +7,9 @@ import argparse
 import sys
 from torchvision.datasets import CIFAR100
 from torchvision.datasets import CIFAR10
+from torchvision.datasets import SVHN
+sys.path.append('./') 
+import mnist
 import torch.nn.functional as F
 from torch import nn
 from torch.autograd import Variable
@@ -25,13 +28,13 @@ except ImportError:
     from torch.utils.model_zoo import load_url as load_state_dict_from_url
 parser = argparse.ArgumentParser(description='resnet Training')
 parser.add_argument('-d', '--datasetid',  default=0, type=int,
-                    help='the dataset to train (0 for cifar10, 1 cifar100, 2 caltech101, 3 caltech256')
-parser.add_argument('-b', '--blockid', default=2,type=int,               
+                    help='the dataset to train (0 for cifar10, 1 cifar100, 2 caltech101, 3 svhn, 4 MNIST, 5 Fashion MNIST ')
+parser.add_argument('-b', '--blockid', default=0,type=int,               
                     help='0 BasicBlock, 1 Bottleneck, 2 C_BasicBlock_A1, '+
                     '3 C_BasicBlock_A, 4 C_BasicBlock_A2, 5 C_Bottleneck_C1, 6 C_Bottleneck_C'+
                     '7 c_Bottleneck_B, 8 c_Bottleneck_B1, 9 c_Bottleneck_B2, 10 c_Bottleneck_B3')
 
-parser.add_argument('-l', '--layers',default='2,2,2,2',type=str,
+parser.add_argument('-l', '--layers',default='1,1,1,1',type=str,
                     help='num of layer,like resnet18:2,2,2,2 resnet34:3,4,6,3')
 parser.add_argument('-j', '--workers', default=0, type=int, metavar='N',
                     help='number of data loading workers (default: 0)')
@@ -53,7 +56,7 @@ parser.add_argument('--save-epoch', default=20, type=int,
                     help='epoch to save model')
 parser.add_argument('--gpu', default=None, type=str,
                     help='GPU id to use.such as 0,1,2 means make 0,1,2 three gpus available.')
-parser.add_argument('--save-path',default='./model_save',type=str)
+parser.add_argument('--save-path',default='./model_save3',type=str)
 parser.add_argument('--pretrain-model',default=None,type=str,
                     help='pretrain_model file name(load the model save under ./model_save)')
 
@@ -120,11 +123,22 @@ def dataset_choose(dataset_id):
         train_set = CalDataset(text_path=train_path,path=base_path,transform=transform_train,target_transform=None) 
         test_set= CalDataset(text_path=val_path,path=base_path,transform=transform_test,target_transform=None)
     elif(dataset_id==3):
+        train_set = SVHN(data_path, split='train', transform=transform_train,download=True)
+        test_set = SVHN(data_path, split='test', transform=transform_test_cifar,download=True)   
+        
+        '''
         base_path=data_path+"Caltech256/"
         train_path=base_path+"dataset-train.txt"
         val_path=base_path+"dataset-val.txt"
         train_set = CalDataset(text_path=train_path,path=base_path,transform=transform_train,target_transform=None) 
         test_set= CalDataset(text_path=val_path,path=base_path,transform=transform_test,target_transform=None)
+        '''
+    elif(dataset_id==4):
+        train_set = mnist.MNIST(data_path, train=True, transform=transform_train,download=True)
+        test_set = mnist.MNIST(data_path, train=False, transform=transform_test_cifar,download=True)
+    elif(dataset_id==5):
+        train_set = mnist.FashionMNIST(data_path, train=True, transform=transform_train,download=True)
+        test_set = mnist.FashionMNIST(data_path, train=False, transform=transform_test_cifar,download=True)  
     else:
         args.datasetid=0
         train_set = CIFAR10(data_path, train=True, transform=transform_train,download=True)
@@ -152,13 +166,13 @@ transform_test_cifar = transforms.Compose([
     transforms.ToTensor(),
     transforms.Normalize((0.4914, 0.4822, 0.4465), (0.2023, 0.1994, 0.2010)),
 ])
-dataset_numclass=[10,100,101,256]
+dataset_numclass=[10,100,101,10,10,10]
 
-dataset_name=['cifar10','cifar100','caltech101','caltech256']
+dataset_name=['Cifar10','Cifar100','Caltech101','SVHN','Mnist','FashionMnist']
 block_name=['BasicBlock','Bottleneck','C_BasicBlock_A1','C_BasicBlock_A', 'C_BasicBlock_A2', 'C_Bottleneck_C1', 'C_Bottleneck_C',
             'c_Bottleneck_B', 'c_Bottleneck_B1','c_Bottleneck_B2','c_Bottleneck_B3'] 
 
-
+result="./model_save3/{}_{}_{}_{}.txt".format(block_name[args.blockid],args.layers,dataset_name[args.datasetid],int(time.time()))
     
 def get_acc(output, label):
     total = output.shape[0]
@@ -176,8 +190,9 @@ def train(net, train_data, valid_data, num_epochs, optimizer, criterion,LR,lr_ep
     if torch.cuda.is_available():
         net = net.cuda()
     prev_time = datetime.now()
+    #str_iso=[]
     for epoch in range(num_epochs):
-        
+        str1=None
         adjust_learning_rate(optimizer, epoch, LR,lr_epoch)
         train_loss = 0
         train_acc = 0
@@ -207,7 +222,7 @@ def train(net, train_data, valid_data, num_epochs, optimizer, criterion,LR,lr_ep
         
         if (epoch+1)%args.save_epoch==0: 
             torch.save(net.state_dict(),
-                       "./model_save/{}_{}_{}.pt".format(block_name[args.blockid],args.layers,dataset_name[args.datasetid]))  
+                       "./model_save3/{}_{}_{}.pt".format(block_name[args.blockid],args.layers,dataset_name[args.datasetid]))  
         
         if valid_data is not None:
             valid_loss = 0
@@ -235,6 +250,13 @@ def train(net, train_data, valid_data, num_epochs, optimizer, criterion,LR,lr_ep
                 % (epoch, train_loss / len(train_data),
                    train_acc / len(train_data), valid_loss / len(valid_data),
                    valid_acc / len(valid_data)))
+            e1=epoch        #这边把要写入的数据拿出来,并且使用round（）函数保留6位小数
+            e2=round(train_loss / len(train_data),6)
+            e3=round(train_acc / len(train_data),6)
+            e4=round(valid_loss / len(valid_data),6)
+            e5=round(valid_acc / len(valid_data),6)
+            str1=str(e1)+','+str(e2)+','+str(e3)+','+str(e4)+','+str(e5)  #拼接起来
+            #str_iso.append(str1) 
 
         else:
             epoch_str = ("Epoch %d. Train Loss: %f, Train Acc: %f, " %
@@ -242,6 +264,9 @@ def train(net, train_data, valid_data, num_epochs, optimizer, criterion,LR,lr_ep
                           train_acc / len(train_data)))
         prev_time = cur_time
         print(epoch_str + time_str)
+        
+        with open(result,"a+") as f:
+                f.write(str1+'\n')
 
 
 
@@ -253,11 +278,11 @@ def main():
     train_data=torch.utils.data.DataLoader(train_set, batch_size=args.batch_size, shuffle=True,num_workers=args.workers)
     test_data=torch.utils.data.DataLoader(test_set, batch_size=args.batch_size, shuffle=False,num_workers=args.workers)
     net=net_construct(args.blockid,[int(s) for s in args.layers.split(',')],dataset_numclass[args.datasetid])
-   
+    
     
     net=nn.DataParallel(net)  
     if args.pretrain_model is not None:
-        pretrained_net = torch.load('./model_save/'+args.pretrain_model)
+        pretrained_net = torch.load('./model_save2/'+args.pretrain_model)
         net.load_state_dict(pretrained_net)
     criterion = nn.CrossEntropyLoss()  
     LR=args.lr
