@@ -7,8 +7,9 @@ C-ResNet18-A            |C-ResNet27-A|C-ResNet27-A1  |C-ResNet27-A2            |
 
 ## Overview
 Here we provide the code of nine cross resnet block in pytorch, along with the four datasets for training in paper . The repository is organised as follows:
-- `data/` contains two datasets data (Caltech101 and Caltech256), and others' two datasets cifar10 and cifar100 can download from internet easily. Caltech101 source:http://www.vision.caltech.edu/Image_Datasets/Caltech101/ .
-Caltech256 source:http://www.vision.caltech.edu/Image_Datasets/Caltech256/.
+- `data/` contains two datasets data (Caltech101 and Caltech256), and others' two datasets cifar10 and cifar100 can download from internet easily.
+-  Caltech101 source:http://www.vision.caltech.edu/Image_Datasets/Caltech101/ .
+-  Caltech256 source:http://www.vision.caltech.edu/Image_Datasets/Caltech256/.
 - `resnetimprove.py` contains the code of the  original resnet block (BasicBlock and Bottleneck) and nine cross resnet block ('C_BasicBlock_A1','C_BasicBlock_A','C_BasicBlock_A2','C_Bottleneck_C1','C_Bottleneck_C','c_Bottleneck_B','c_Bottleneck_B1','c_Bottleneck_B2','c_Bottleneck_B3');
 - `main.py` running model training.
 
@@ -19,7 +20,7 @@ Examples for running main.py on terminal:
   - If you want to train C-ResNet15-A1 on Cifar10, run it by the command: `python main.py -l 1,1,1,1`.
   - If you want to train C-ResNet18-A on Cifar10, run it by the command: `python main.py -b 3 -l 1,2,1,1`.
   - If you want to train C-ResNet27-A2 on Cifar100, run it by the command: `python main.py -d 1 -b 4 -l 2,2,2,2`.
-  - If you want to train C-ResNet27-B on Caltech101, run it by the command: `python main.py -d 2 -b 7 -l 1,1,1,1`.
+  - If you want to train C-ResNet27-B on Caltech101(Please download the caltech101 dataset yourself), run it by the command: `python main.py -d 2 -b 7 -l 1,1,1,1`.
   - If you want to train C-ResNet27-C on Caltech256, run it by the command: `python main.py -d 3 -b 6 -l 2,2,2,2`.
   
 If you want to konw more details about running, you can read the source code:  `main.py`. 
