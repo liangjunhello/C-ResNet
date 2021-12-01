@@ -151,7 +151,7 @@ class c_BasicBlock_A2(nn.Module):
 
     def forward(self, x):  
         out1 = F.relu(self.bn1(self.conv1(x)), True)
-        out2=F.relu(self.bn2(self.conv2(out1)))
+        out2 = F.relu(self.bn2(self.conv2(out1)))
         out2 = out2+self.shortcut_1(x)
         out3 = F.relu(self.bn3(self.conv3(out2)))
         out3 = out3+out1
@@ -243,13 +243,13 @@ class c_Bottleneck_B(nn.Module):
 
     
     def forward(self, x):
-        out1=F.relu(self.bn1(self.conv1(x)))
+        out1 =F.relu(self.bn1(self.conv1(x)))
         out2 =F.relu(self.bn2(self.conv2(out1)))
         out3 =F.relu(self.bn3(self.conv3(out2)))
         out4 =F.relu(self.bn4(self.conv4(out3)))   
-        out4=out4+ self.shortcut_1(x)
+        out4 =out4+ self.shortcut_1(x)
         out5 =F.relu(self.bn5(self.conv5(out4)))
-        out5=out5+out2       
+        out5 =out5+out2       
         out6 =F.relu(self.bn6(self.conv6(out5)))     
         out6 =out6+out3  
     
@@ -403,6 +403,7 @@ class ResNet(nn.Module):
         return nn.Sequential(*layers)
 
     def forward(self, x):
+        
         out=self.conv0(x)
         out = F.relu(self.bn1(self.conv1(out)))
         out = self.layer1(out)
@@ -411,6 +412,11 @@ class ResNet(nn.Module):
         out = self.layer4(out)
         out = F.avg_pool2d(out, 4)
         out = out.view(out.size(0), -1)
+        #print(out.shape)
+        '''
+        if(out.shape[1]!=512):
+            print("@@",x.shape)
+        '''
         out = self.linear(out)
         return out
 
