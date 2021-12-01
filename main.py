@@ -26,6 +26,7 @@ try:
     from torch.hub import load_state_dict_from_url
 except ImportError:
     from torch.utils.model_zoo import load_url as load_state_dict_from_url
+
 parser = argparse.ArgumentParser(description='resnet Training')
 parser.add_argument('-d', '--datasetid',  default=0, type=int,
                     help='the dataset to train (0 for cifar10, 1 cifar100, 2 caltech101, 3 svhn, 4 MNIST, 5 Fashion MNIST ')
@@ -56,7 +57,7 @@ parser.add_argument('--save-epoch', default=20, type=int,
                     help='epoch to save model')
 parser.add_argument('--gpu', default=None, type=str,
                     help='GPU id to use.such as 0,1,2 means make 0,1,2 three gpus available.')
-parser.add_argument('--save-path',default='./model_save3',type=str)
+parser.add_argument('--save-path',default='./model_save',type=str)
 parser.add_argument('--pretrain-model',default=None,type=str,
                     help='pretrain_model file name(load the model save under ./model_save)')
 
@@ -172,7 +173,7 @@ dataset_name=['Cifar10','Cifar100','Caltech101','SVHN','Mnist','FashionMnist']
 block_name=['BasicBlock','Bottleneck','C_BasicBlock_A1','C_BasicBlock_A', 'C_BasicBlock_A2', 'C_Bottleneck_C1', 'C_Bottleneck_C',
             'c_Bottleneck_B', 'c_Bottleneck_B1','c_Bottleneck_B2','c_Bottleneck_B3'] 
 
-result="./model_save3/{}_{}_{}_{}.txt".format(block_name[args.blockid],args.layers,dataset_name[args.datasetid],int(time.time()))
+result="./model_save/{}_{}_{}_{}.txt".format(block_name[args.blockid],args.layers,dataset_name[args.datasetid],int(time.time()))
     
 def get_acc(output, label):
     total = output.shape[0]
@@ -222,7 +223,7 @@ def train(net, train_data, valid_data, num_epochs, optimizer, criterion,LR,lr_ep
         
         if (epoch+1)%args.save_epoch==0: 
             torch.save(net.state_dict(),
-                       "./model_save3/{}_{}_{}.pt".format(block_name[args.blockid],args.layers,dataset_name[args.datasetid]))  
+                       "./model_save/{}_{}_{}.pt".format(block_name[args.blockid],args.layers,dataset_name[args.datasetid]))  
         
         if valid_data is not None:
             valid_loss = 0
@@ -282,7 +283,7 @@ def main():
     
     net=nn.DataParallel(net)  
     if args.pretrain_model is not None:
-        pretrained_net = torch.load('./model_save2/'+args.pretrain_model)
+        pretrained_net = torch.load('./model_save/'+args.pretrain_model)
         net.load_state_dict(pretrained_net)
     criterion = nn.CrossEntropyLoss()  
     LR=args.lr
