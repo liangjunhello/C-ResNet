@@ -11,9 +11,9 @@ Examples for running train.py on terminal:
   - If you want to train C-ResNet15-A1 as backbone in a multi-gpu environment, run it by the command: `python -m torch.distributed.launch --nproc_per_node=$NGPU --use_env \
         train.py ... --world-size $NGPU --blockid 2 --layers 1,1,1,1`.
   - If you want to train C-ResNet18-A as backbone in a multi-gpu environment, run it by the command: `python -m torch.distributed.launch --nproc_per_node=$NGPU --use_env \
-        train.py ... --world-size $NGPU - -blockid 3 -layers 1,2,1,1`.
+        train.py ... --world-size $NGPU --blockid 3 --layers 1,2,1,1`.
   - If you want to train C-ResNet27-B2 as backbone in a multi-gpu environment, run it by the command: `python -m torch.distributed.launch --nproc_per_node=$NGPU --use_env \
-        train.py ... --world-size $NGPU - -blockid 9 -layers 1,1,1,1`.
+        train.py ... --world-size $NGPU --blockid 9 --layers 1,1,1,1`.
  
 If you want to konw more details about running, you can read the source code:  `train.py`. 
 
